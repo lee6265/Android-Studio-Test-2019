@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">第一個Android 程式</string>
+    <string name="myName">王小明</string>
+    <string name="myBtn">送出</string>
 </resources>
