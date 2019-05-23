@@ -1,12 +1,11 @@
 package com.example.myapplication
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,12 +25,14 @@ class MainActivity : AppCompatActivity() {
         x=(Math.random()*100).toInt()
 
         btnNext.setOnClickListener {
-            var bundle= Bundle()
+            val bundle= Bundle()
             bundle.putInt("score",x)
             bundle.putString("name","${editName.text}")
-            var intent=Intent(this,Main2Activity::class.java)
+            val intent=Intent(this,Main2Activity::class.java)
             intent.putExtra("bundle",bundle)
-            startActivity(intent)
+            //intent.putExtra(bundle) Error
+            //startActivity(intent)
+            startActivityForResult(intent,1)
         }
 
 
@@ -56,5 +57,15 @@ class MainActivity : AppCompatActivity() {
             if(x<60)
                 txtMsg.text="${txtMsg.text} \n $x + 20 = ${plus(x,20)}"
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        var b=data?.getBundleExtra("bundle")?:return
+            if(requestCode==1 && resultCode==Activity.RESULT_OK){
+                txtMsg.text="姓名:${b.getString("name")}\n"+
+                        "新成績:${b.getInt("new score")}"
+            }
+
     }
 }
